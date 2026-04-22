@@ -21,6 +21,13 @@ npm run dev
 
 Die App läuft danach unter <http://localhost:5173>. Fertig.
 
+> **Wichtig:** `npm run dev` ist ein laufender Prozess — das Terminal bleibt die ganze Session offen. Schließen = Server weg. Für andere Befehle (z. B. `npm run build`) öffne ein **zweites** Terminal-Tab (in Cursor: Tastenkürzel `` Ctrl + Shift + ` `` oder das `+`-Icon oben rechts im Terminal-Panel).
+
+### Terminal in Cursor öffnen
+
+- Tastenkürzel: `` Ctrl + ` `` (Backtick — die Taste links von der `1`).
+- Alternativ über das Menü: **View → Terminal**.
+
 Voraussetzung: **Node.js ≥ 20** (prüfen mit `node -v`).
 
 ## Scripts
@@ -91,13 +98,15 @@ Sei konkret: Sag *was* du sehen willst, nicht *wie* er es bauen soll.
 
 ## Wenn etwas kaputt ist
 
-| Problem                              | Schneller Fix                                                  |
-|--------------------------------------|----------------------------------------------------------------|
-| Port 5173 belegt                     | `lsof -ti:5173 \| xargs kill -9` und nochmal `npm run dev`    |
-| `node` zu alt                        | Node auf Version ≥ 20 bringen (`nvm install 20` z.B.)         |
-| Installation hängt / komische Fehler | `rm -rf node_modules package-lock.json && npm install`        |
-| Cursor reagiert seltsam              | Cursor neu starten                                             |
-| Tailwind-Klassen greifen nicht       | Dev-Server neu starten (`Ctrl+C`, dann `npm run dev`)         |
+| Problem                              | Schneller Fix                                                                                 |
+|--------------------------------------|-----------------------------------------------------------------------------------------------|
+| Seite lädt nicht / weiß              | Läuft `npm run dev` noch? In das Terminal mit dem Dev-Server schauen; ggf. neu starten        |
+| Port 5173 belegt (macOS/Linux)       | `lsof -ti:5173 \| xargs kill -9` und nochmal `npm run dev`                                   |
+| Port 5173 belegt (Windows)           | PowerShell: `Stop-Process -Id (Get-NetTCPConnection -LocalPort 5173).OwningProcess -Force`   |
+| `node` zu alt                        | Node auf Version ≥ 20 bringen (`nvm install 20` z. B.)                                        |
+| Installation hängt / komische Fehler | `rm -rf node_modules package-lock.json && npm install`                                        |
+| Cursor reagiert seltsam              | Cursor neu starten                                                                            |
+| Tailwind-Klassen greifen nicht       | Im Dev-Server-Terminal `Ctrl+C`, dann `npm run dev`                                           |
 
 ## Ordner, die du (meistens) nicht anfassen musst
 
