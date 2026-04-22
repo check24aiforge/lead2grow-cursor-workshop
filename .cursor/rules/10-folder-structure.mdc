@@ -40,10 +40,6 @@ If the user adds a file to `public/data/foo.csv`, it is fetched from the app as 
 - `components.json` — shadcn/ui configuration.
 - `README.md` — participant-facing onboarding.
 
-## `docs/` — workshop material
-
-Contains briefing cards and the presenter guide. **Treat these as read-only**. Do not modify them unless the user explicitly asks.
-
 ## Import paths
 
 - Imports from anywhere in `src/` use the `@/` alias (e.g. `import { Button } from "@/components/ui/button"`).

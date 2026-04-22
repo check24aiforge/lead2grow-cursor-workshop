@@ -42,7 +42,6 @@ This is a **live workshop environment**. Code must be optimized for facilitator 
 
 - Source code lives under `src/`.
 - Static assets that must be fetchable by URL live under `public/` (they are served at the site root — no `public/` prefix in URLs).
-- Workshop briefing and presenter material lives under `docs/` — these files are read-only for agents; do not rewrite them.
 - Any conventions for filenames, schemas, or subfolders *inside* `public/` come from the user or a nearby README, not from you.
 
 See `10-folder-structure.mdc` for the detailed layout rules.
