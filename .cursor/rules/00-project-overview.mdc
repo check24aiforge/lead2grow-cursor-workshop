@@ -23,11 +23,13 @@ The following are the only approved technologies. Do not add or swap any of them
 
 Never install or introduce any of: Next.js, Remix, Create React App, Gatsby, Astro, styled-components, MUI, Chakra, Emotion, stitches, vanilla-extract, Redux, Zustand, React Query, SWR, Jotai, Recoil, MobX, react-router (unless a router is genuinely needed — ask first). Never introduce a new language or runtime (no Python, no Deno, no Bun).
 
-## Audience and coding style
+## Coding style
 
-- The audience is **non-developers** (aspiring managers and leaders in a Cursor workshop). Optimize for readable, boring, obvious code.
-- No premature abstractions, no generics-heavy utilities, no custom hooks before the second duplication, no design patterns chosen for their own sake.
-- Prefer one component per file, explicit prop types, and clear names over clever tricks.
+This is a **live workshop environment**. Code must be optimized for facilitator confidence and operational resilience — not for cleverness or architectural completeness.
+
+- **No premature abstractions**: no generics-heavy utilities, no custom hooks before the second duplication, no design patterns chosen for their own sake. The facilitator needs to narrate and debug what the agent produces in real time.
+- **One component per file, explicit prop types, clear names**: when something breaks mid-demo, the facilitator needs to locate and fix it in under a minute. Indirection kills that.
+- **Scope control**: do not build more than was asked. A five-layer architecture for a demo app is a liability, not a feature.
 
 ## Default behavior for common decisions
 
