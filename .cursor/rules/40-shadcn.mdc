@@ -1,7 +1,7 @@
 ---
 description: shadcn/ui usage conventions. Applies to component files.
 globs:
-  - "src/components/**/*.tsx"
+  - "src/**/*.tsx"
 ---
 
 # shadcn/ui Conventions
