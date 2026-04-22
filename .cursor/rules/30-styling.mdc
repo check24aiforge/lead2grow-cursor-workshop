@@ -1,0 +1,55 @@
+---
+description: Styling strategy — one stylesheet, Tailwind utilities for everything else. Applies to TSX and CSS files.
+globs:
+  - "**/*.tsx"
+  - "**/*.css"
+---
+
+# Styling — One Stylesheet + Tailwind Utilities
+
+## The single-stylesheet rule
+
+There is exactly **one** stylesheet in this project: `src/index.css`. Do not create additional `.css`, `.scss`, `.sass`, `.less`, or `.module.css` files.
+
+`src/index.css` contains, in order:
+
+1. `@import "tailwindcss";` and the shadcn imports.
+2. The project's `@theme { … }` block — **workshop brand tokens** (`--color-brand`, `--color-brand-hover`, `--color-highlight`, `--color-surface`, `--color-ink`).
+3. The shadcn `@theme inline` block mapping shadcn CSS variables to Tailwind color names.
+4. `:root` and `.dark` CSS-variable blocks for shadcn's light and dark themes.
+5. Optional `@layer components` and `@layer utilities` blocks for repeated patterns and custom utilities.
+6. Optional `@keyframes` blocks for animations.
+
+**Why one file?** Non-developers + AI agents + many stylesheets = styles drifting out of sync and rules redefined in three places. Tailwind is designed so that per-component stylesheets are unnecessary.
+
+## Utility-first workflow
+
+- Style components by applying Tailwind utility classes via `className`. This is the default — reach for it first.
+- Compose conditional classes with `cn()` from `@/lib/utils` (shadcn's helper). Never build class strings with `+` or template literals when conditional logic is involved.
+- Inline `style={{}}` is ONLY allowed for values that cannot be expressed as classes (e.g. a computed pixel width from runtime data, a dynamic CSS custom property). Never use it for static colors, paddings, or fonts.
+- Arbitrary values (`bg-[#ff0000]`, `w-[73px]`) are allowed but discouraged. If the same arbitrary value appears twice, promote it to a token in `@theme`.
+
+## When duplication appears
+
+If the exact same Tailwind class string repeats 3+ times verbatim, choose one of:
+
+1. **Extract a React component** (preferred — it's the React-native solution).
+2. Add an `@layer components` rule in `index.css` using `@apply`.
+
+Never reach for a new CSS file.
+
+## Theme tokens
+
+Project-wide colors, fonts, and radii live in the `@theme { … }` block in `src/index.css`. Tailwind turns `--color-brand: #7c3aed;` into the `brand` color (usable as `bg-brand`, `text-brand`, `border-brand`, …). The same applies to `--font-*`, `--radius-*`, etc.
+
+This scaffold ships with a **placeholder** theme (violet `brand` + amber `highlight` + stone `surface` / `ink`). Prefer the semantic tokens `bg-brand` / `text-brand` / `bg-highlight` / `bg-surface` / `text-ink` over hard-coded palette classes like `bg-violet-600`, so that retheming means editing one `@theme` block — not hunting down utility classes across components.
+
+shadcn primitives draw their colors from the shadcn CSS-variable set (`--primary`, `--background`, `--card`, …). `--primary` is aligned to the brand token during setup so shadcn primitives match the placeholder identity. When retheming, update **both** `--color-brand` in `@theme` **and** `--primary` / `--ring` / `--sidebar-primary` in the `:root` / `.dark` blocks.
+
+## Do-not list
+
+- No CSS-in-JS libraries (styled-components, Emotion, stitches, vanilla-extract, goober, …).
+- No CSS modules.
+- No global selector hacks (`* { … }`, `body div span`). Scope styles through class names on the element.
+- No `!important` unless overriding a third-party rule we cannot reach.
+- No `<style>` tags inside JSX except for dynamic CSS custom properties that cannot go in `index.css`.

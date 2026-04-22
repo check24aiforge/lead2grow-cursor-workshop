@@ -1,0 +1,47 @@
+---
+description: shadcn/ui usage conventions. Applies to component files.
+globs:
+  - "src/components/**/*.tsx"
+---
+
+# shadcn/ui Conventions
+
+## When to use a shadcn primitive
+
+Primitive UI elements — `Button`, `Input`, `Card`, `Dialog`, `Select`, `Checkbox`, `Badge`, `Label`, `Separator`, `Sheet`, `Tabs`, `Dropdown Menu`, `Tooltip`, etc. — **must** come from shadcn/ui.
+
+- Do **not** hand-roll these primitives (no custom `<button className="rounded px-2 py-1 bg-blue-500 …">` when a shadcn `Button` exists).
+- Do **not** copy shadcn source code from the web and paste it into `src/components/ui/`. Always use the CLI.
+
+## Adding a missing primitive
+
+If a primitive is needed and is **not** already in `src/components/ui/`, stop and follow the **shadcn-add-component** skill (`.cursor/skills/shadcn-add-component/SKILL.md`).
+
+In short: run `npx shadcn@latest add <component>` from the repo root. The CLI drops the file at `src/components/ui/<component>.tsx` with all dependencies set up correctly.
+
+## Do not edit generated primitives
+
+Files under `src/components/ui/` are CLI-generated. Do not hand-edit them except to:
+
+- add a new `variant` to an existing `cva(...)` block, with a one-line comment explaining why, or
+- re-run the CLI to regenerate the file.
+
+If you need different behavior, compose the primitive into a new application component under `src/components/` instead of editing the primitive.
+
+## Application components vs primitives
+
+- `src/components/ui/` → shadcn primitives (CLI-generated).
+- `src/components/*.tsx` (outside `ui/`) → **application components** that compose primitives for a specific purpose (e.g. `ShopCard`, `FilterBar`, `CompareView`). These are hand-written and live in files named in PascalCase.
+
+A simple mental model: if the component is named for a domain concept, it is an application component and goes in `src/components/`. If it is named for a generic UI element, it belongs in shadcn and is added via the CLI.
+
+## Imports
+
+Import shadcn primitives via the `@/components/ui/...` path:
+
+```tsx
+import { Button } from "@/components/ui/button"
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+```
+
+Never import shadcn primitives via relative paths.

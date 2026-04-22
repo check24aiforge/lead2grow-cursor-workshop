@@ -1,0 +1,62 @@
+---
+description: TypeScript and React best practices for this scaffold. Applies when editing TS/TSX.
+globs:
+  - "**/*.ts"
+  - "**/*.tsx"
+---
+
+# TypeScript + React Conventions
+
+Opinionated defaults chosen to prevent the bugs that derail non-developers and confuse follow-up agent turns.
+
+## TypeScript
+
+- `strict: true` is enforced by `tsconfig.app.json`. Do not disable it or any of the individual strict flags (`noImplicitAny`, `strictNullChecks`, …).
+- No `any`. Use `unknown` with narrowing, or define a proper type.
+- No `@ts-ignore`. `@ts-expect-error` is allowed only with a one-line justification comment.
+- Prefer `type` over `interface` unless declaration-merging is needed.
+- Explicit return types on **exported** functions and components. Local helpers may infer.
+- Use `satisfies` for constant lookup tables. Avoid `as` type assertions except for narrowing from `unknown`.
+- Imports from `src/` use the `@/` alias. Sibling files in the same folder may use relative imports.
+
+## React — structure
+
+- Function components only. No class components.
+- One component per file. File name = PascalCase component name. Default export.
+- Props typed via `type Props = { … }`. Do **not** use `React.FC`.
+- Never define a component inside another component's body — it causes remount loops and silently breaks `useState`.
+- Split a file when it exceeds ~150 lines, or when a single `return (…)` exceeds ~60 lines or 3 levels of nesting.
+
+## React — hooks
+
+- Call hooks only at the top level of a component. No hooks inside loops, conditions, or nested callbacks.
+- `useEffect` is for **side effects only** (fetching, subscriptions, DOM, timers). **Never use `useEffect` to compute derived state** — derive it during render.
+- Return a cleanup function from `useEffect` whenever it subscribes, starts a timer, or starts a fetch (use `AbortController` for fetches).
+- `useMemo` / `useCallback` only when there is a measured reason (expensive compute, or a stable reference for a memoized child). Do not preoptimize.
+- `useRef` for DOM references. Never use `document.getElementById` / `document.querySelector` inside components.
+
+## React — state and events
+
+- **Never mutate state.** Call the setter with a new value, or the updater form `setX(prev => …)` when the next value depends on the previous one.
+- Do not duplicate state that can be derived from props or other state — derive it.
+- Inputs are **controlled**: `value` + `onChange`. Never mix controlled and uncontrolled on the same input.
+- Event handlers are named `handleClick`, `handleChange`, etc. Prop names stay `onClick`, `onChange`, etc.
+
+## React — lists, keys, images
+
+- Every `.map(...)` that returns JSX MUST pass a stable `key` derived from a domain id. Do not use the array index unless the list is truly static and never reordered.
+- `<img>` tags must have an `alt`. Use `alt=""` for purely decorative images.
+- Images served from `public/` are referenced by absolute URL (e.g. `/logos/foo.png`). Never import dataset images from `src/`.
+- When a URL can be missing or broken, guard on the value and set an `onError` fallback. Do not guess paths that aren't in your data.
+
+## React — data fetching
+
+- `fetch()` goes inside a `useEffect` with an `AbortController`. Handle three states **explicitly**: `loading`, `error`, `data`. Never call `fetch()` in the render body.
+- For CSV parsing, use the pre-installed `papaparse` library. Do not install an alternative and do not hand-roll a parser.
+- For other complex formats (XML, YAML, …), propose a well-known library first and wait for user confirmation before installing.
+
+## Accessibility basics
+
+- Use `<button>` for actions, `<a href>` for navigation. Do not make a plain `<div>` clickable without keyboard handling.
+- Always pair form inputs with `<label htmlFor>` or wrap the input inside a `<label>`.
+- Interactive icons need an accessible label (`aria-label` or visually hidden text).

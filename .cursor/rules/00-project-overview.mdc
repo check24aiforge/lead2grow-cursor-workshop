@@ -1,0 +1,46 @@
+---
+description: Locked tech stack and top-level conventions for this workshop scaffold. Applies to every request.
+alwaysApply: true
+---
+
+# Project Overview
+
+This repository is a **workshop starter scaffold**. It is intentionally empty of application logic. Do **not** assume what the final app does — read the user's prompt to learn that.
+
+## Tech stack — LOCKED
+
+The following are the only approved technologies. Do not add or swap any of them without the user explicitly asking by name:
+
+- **Package manager**: npm (never yarn, never pnpm).
+- **Runtime / language**: Node.js ≥ 20, TypeScript (strict mode on).
+- **UI framework**: React 18+.
+- **Build tool**: Vite.
+- **Styling**: Tailwind CSS v4 (via `@tailwindcss/vite`).
+- **Component library**: shadcn/ui (always added via the shadcn CLI).
+- **CSV parser**: `papaparse` (pre-installed). Do not install an alternative and do not hand-roll a parser.
+
+### Forbidden without explicit user request
+
+Never install or introduce any of: Next.js, Remix, Create React App, Gatsby, Astro, styled-components, MUI, Chakra, Emotion, stitches, vanilla-extract, Redux, Zustand, React Query, SWR, Jotai, Recoil, MobX, react-router (unless a router is genuinely needed — ask first). Never introduce a new language or runtime (no Python, no Deno, no Bun).
+
+## Audience and coding style
+
+- The audience is **non-developers** (aspiring managers and leaders in a Cursor workshop). Optimize for readable, boring, obvious code.
+- No premature abstractions, no generics-heavy utilities, no custom hooks before the second duplication, no design patterns chosen for their own sake.
+- Prefer one component per file, explicit prop types, and clear names over clever tricks.
+
+## Default behavior for common decisions
+
+- **Routing**: do not introduce a router. Prefer conditional rendering, a `<Dialog>`, or a modal for "detail views". If multiple URLs are truly required, ask the user before installing `react-router`.
+- **State management**: local `useState` first. Lift state up before reaching for any library. Do not install Redux / Zustand / Jotai unless asked.
+- **Data fetching**: plain `fetch()` inside a `useEffect`. Do not install React Query or SWR unless asked.
+- **Theme**: the scaffold ships with a deliberate *placeholder* theme (violet `--color-brand` + amber `--color-highlight` + stone `--color-surface` / `--color-ink`). This is not the final brand — it is meant to be replaced. Brand/theme decisions are the user's, not yours.
+
+## Where things live
+
+- Source code lives under `src/`.
+- Static assets that must be fetchable by URL live under `public/` (they are served at the site root — no `public/` prefix in URLs).
+- Workshop briefing and presenter material lives under `docs/` — these files are read-only for agents; do not rewrite them.
+- Any conventions for filenames, schemas, or subfolders *inside* `public/` come from the user or a nearby README, not from you.
+
+See `10-folder-structure.mdc` for the detailed layout rules.
